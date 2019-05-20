@@ -10,3 +10,5 @@ export const projectSchema = Joi.object().keys({
 })
 
 export const idSchema = Joi.number().integer().positive()
+
+export const apiKeySchema = Joi.string()
