@@ -25,6 +25,32 @@ export const STATUS_CODES = {
   InternalServerError: 500,
 }
 
+export class AuthError extends HttpError {
+  constructor(props) {
+    super({...props, type: TYPES.AUTH_ERROR })
+  }
+}
+export class ForbiddenError extends HttpError {
+  constructor(props) {
+    super({...props, type: TYPES.FORBIDDEN })
+  }
+}
+export class InputError extends HttpError {
+  constructor(props) {
+    super({...props, type: TYPES.INPUT_ERROR })
+  }
+}
+export class ResourceNotFoundError extends HttpError {
+  constructor(props) {
+    super({...props, type: TYPES.RESOURCE_NOT_FOUND })
+  }
+}
+export class InternalServerError extends HttpError {
+  constructor(props) {
+    super({...props, type: TYPES.INTERNAL_SERVER_ERROR })
+  }
+}
+
 export default class HttpError extends Error {
   
   constructor(props) {

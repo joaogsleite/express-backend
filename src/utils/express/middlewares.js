@@ -2,7 +2,7 @@
 import Joi from '@hapi/joi'
 
 export { meAlias, isAuth, isAdmin } from './auth'
-import HttpError, { TYPES } from './errors'
+import HttpError, { TYPES, InternalServerError, InputError } from './errors'
 import { getPathFromObj } from '../index'
 
 import { RouteFunction } from 'utils/types'
@@ -23,10 +23,7 @@ export function runController(func, args) {
       if (error.isHttpError) {
         next(error)
       } else {
-        next( new HttpError({
-          type: TYPES.INTERNAL_SERVER_ERROR,
-          error,
-        }))
+        next(new InternalServerError({ error }))
       }
     })
   }
@@ -57,10 +54,9 @@ export function validate(path, schema) {
     const objToValidate = getPathFromObj(path, req)
     Joi.validate(objToValidate, schema).then(() => {
       next()
-    }).catch(createHttpError({
-      type: TYPES.INPUT_ERROR,
-      error,
-    }))
+    }).catch((error) => {
+      next(new InputError({ error }))
+    })
   }
 }
 
