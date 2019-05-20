@@ -3,5 +3,8 @@
     "target": "es6",
     "experimentalDecorators": true,
     "baseUrl": "./src"
-  }
+  },
+  "exclude": [
+    "build",
+  ],
 }
