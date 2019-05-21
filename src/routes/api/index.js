@@ -15,9 +15,16 @@ router.use('/users', userRouter)
 router.use('/projects', projectRouter)
 
 router.use((error, req, res, next) => {
+  const statusCode = error.statusCode
   delete error.isHttpError
-  log(`${error.type}: statusCode=${error.statusCode} ${error.message ? 'msg='+error.message : ''}`)
-  res.status(error.statusCode).json(error)
+  delete error.statusCode
+  log(error.toString())
+  if (process.env.NODE_ENV !== 'development') {
+    error.details = error.details.filter((detail) => {
+      return detail.code !== -1 && detail.type !== 'RawError'
+    })
+  } 
+  res.status(statusCode).json(error)
 })
 
 export default router

@@ -1,9 +1,8 @@
 {
   "presets": ["@babel/preset-env"],
-  "sourceMap": "inline",
   "plugins": [
+    "source-map-support",
     "@babel/proposal-class-properties",
-    "@babel/proposal-object-rest-spread",
     ["module-resolver", {
       "root": ["./src"],
     }]

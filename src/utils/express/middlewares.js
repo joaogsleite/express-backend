@@ -2,7 +2,7 @@
 import Joi from '@hapi/joi'
 
 export { meAlias, isAuth, isAdmin } from './auth'
-import HttpError, { TYPES, InternalServerError, InputError } from './errors'
+import { InternalServerError, InputError } from './errors'
 import { getPathFromObj } from '../index'
 
 import { RouteFunction } from 'utils/types'
@@ -26,20 +26,6 @@ export function runController(func, args) {
         next(new InternalServerError({ error }))
       }
     })
-  }
-}
-
-/**
- * Throws an HttpError with provided props
- * @param {Object} props
- */
-export function createHttpError(props) {
-  return (rawError) => {
-    if (rawError && rawError.isHttpError) {
-      throw rawError
-    } else {
-      throw new HttpError(props)
-    }
   }
 }
 

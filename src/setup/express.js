@@ -1,8 +1,6 @@
 import express from 'express'
-//import bodyParser from 'body-parser'
+import bodyParser from 'body-parser'
 //import fileUpload from 'express-fileupload'
-//import session from 'express-session'
-//import cookieParser from 'cookie-parser'
 //import morgan from 'morgan'
 
 import passport from './passport'
@@ -19,21 +17,13 @@ const server = express()
 
 //server.use(morgan('dev'))
 
-//server.use(bodyParser.json())
+server.use(bodyParser.json())
 //server.use(bodyParser.urlencoded({ extended: false }))
 
 //server.use(fileUpload())
 
-const sessionConfig = { 
-  secret: EXPRESS_SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false,
-}
-//server.use(session(sessionConfig))
 server.use(passport.initialize())
 server.use(passport.session())
-
-//server.use(cookieParser())
 
 server.use(routes)
 

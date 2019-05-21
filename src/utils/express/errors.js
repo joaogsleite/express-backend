@@ -25,36 +25,10 @@ export const STATUS_CODES = {
   InternalServerError: 500,
 }
 
-export class AuthError extends HttpError {
-  constructor(props) {
-    super({...props, type: TYPES.AUTH_ERROR })
-  }
-}
-export class ForbiddenError extends HttpError {
-  constructor(props) {
-    super({...props, type: TYPES.FORBIDDEN })
-  }
-}
-export class InputError extends HttpError {
-  constructor(props) {
-    super({...props, type: TYPES.INPUT_ERROR })
-  }
-}
-export class ResourceNotFoundError extends HttpError {
-  constructor(props) {
-    super({...props, type: TYPES.RESOURCE_NOT_FOUND })
-  }
-}
-export class InternalServerError extends HttpError {
-  constructor(props) {
-    super({...props, type: TYPES.INTERNAL_SERVER_ERROR })
-  }
-}
-
-export default class HttpError extends Error {
+export class HttpError extends Error {
   
   constructor(props) {
-    super(props.message);
+    super(props.message)
     this.type = props.type || TYPES.INTERNAL_SERVER_ERROR
     this.statusCode = props.statusCode || STATUS_CODES[this.type] || 500
     this.isHttpError = true
@@ -91,5 +65,34 @@ export default class HttpError extends Error {
         message: props.raw || props.error,
       })
     }
+  }
+  toString () {
+    return `${this.type} ${this.statusCode}`
+  }
+}
+
+export class AuthError extends HttpError {
+  constructor(props) {
+    super({...props, type: TYPES.AUTH_ERROR })
+  }
+}
+export class ForbiddenError extends HttpError {
+  constructor(props) {
+    super({...props, type: TYPES.FORBIDDEN })
+  }
+}
+export class InputError extends HttpError {
+  constructor(props) {
+    super({...props, type: TYPES.INPUT_ERROR })
+  }
+}
+export class ResourceNotFoundError extends HttpError {
+  constructor(props) {
+    super({...props, type: TYPES.RESOURCE_NOT_FOUND })
+  }
+}
+export class InternalServerError extends HttpError {
+  constructor(props) {
+    super({...props, type: TYPES.INTERNAL_SERVER_ERROR })
   }
 }

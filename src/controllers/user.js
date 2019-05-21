@@ -1,7 +1,6 @@
 import User from 'models/user'
 
-import HttpError, { TYPES } from 'utils/express/errors'
-import { createHttpError } from 'utils/express/middlewares'
+import { ForbiddenError, ResourceNotFoundError, RESOURCES } from 'utils/express/errors'
 
 /**
  * Get user by id
@@ -9,15 +8,19 @@ import { createHttpError } from 'utils/express/middlewares'
  * @param {number} whoRequested 
  * @returns {Promise<User>}
  */
-export const getUserById = (userId, whoRequested) => {
+export async function getUserById (userId, whoRequested) {
   if (whoRequested && userId !== whoRequested) {
-    throw new HttpError({ type: TYPES.FORBIDDEN })
+    throw new ForbiddenError()
   } else {
-    return User.getById(userId).then((user) => {
+    try {
+      const user = await User.getById(userId)
       return user.toJSON()
-    }).catch(createHttpError({
-      type: TYPES.RESOURCE_NOT_FOUND,
-      id: userId,
-    }))
+    } catch (error) {
+      throw new ResourceNotFoundError({
+        error,
+        resource: RESOURCES.USER, 
+        id: userId,
+      })
+    }
   }
 }
