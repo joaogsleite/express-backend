@@ -1,10 +1,9 @@
 import { Router } from 'express'
 import passport from 'setup/passport'
 
-import { runController, validate } from 'utils/express/middlewares'
-import { loginSchema } from 'utils/express/schemas';
+import { runController } from 'utils/express/middlewares'
 
-import { authSuccess } from 'controllers/auth'
+import { onSuccess } from 'controllers/auth'
 
 import logger from 'utils/logger'
 const log = logger('routes/auth')
@@ -14,10 +13,16 @@ const router = Router()
 log('router created')
 
 router.post('/local',
-  validate('body', loginSchema),
   passport.authenticate('local'),
   runController(
-    authSuccess, ['user.id']
+    onSuccess, ['user.id']
+  )
+)
+
+router.get('/oauth',
+  passport.authenticate('oauth'),
+  runController(
+    onSuccess, ['user.id']
   )
 )
 
