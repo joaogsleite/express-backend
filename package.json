@@ -19,6 +19,7 @@
     "http-errors": "^1.7.2",
     "mysql2": "^1.6.5",
     "passport": "^0.4.0",
+    "passport-azure-ad": "^4.0.0",
     "passport-local": "^1.0.0",
     "sequelize": "^5.8.6",
     "serve-favicon": "^2.5.0"

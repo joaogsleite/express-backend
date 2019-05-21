@@ -72,6 +72,7 @@ export class HttpError extends Error {
 }
 
 export class AuthError extends HttpError {
+  static LOGIN_INCORRECT = 1
   constructor(props) {
     super({...props, type: TYPES.AUTH_ERROR })
   }

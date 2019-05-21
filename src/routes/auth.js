@@ -1,14 +1,17 @@
-import { Router } from 'express'
+// middlewares
+import { runController, errorHandler } from 'utils/express/middlewares'
+
+// controllers
 import passport from 'setup/passport'
-
-import { runController } from 'utils/express/middlewares'
-
 import { onSuccess } from 'controllers/auth'
 
+// logger
 import logger from 'utils/logger'
 const log = logger('routes/auth')
 log('start')
 
+// express router
+import { Router } from 'express'
 const router = Router() 
 log('router created')
 
@@ -25,6 +28,8 @@ router.get('/oauth',
     onSuccess, ['user.id']
   )
 )
+
+router.use(errorHandler)
 
 log('end')
 

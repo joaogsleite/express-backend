@@ -46,3 +46,15 @@ export function validate(path, schema) {
   }
 }
 
+
+export function errorHandler (error, req, res, next) {
+  const statusCode = error.statusCode
+  delete error.isHttpError
+  delete error.statusCode
+  if (process.env.NODE_ENV !== 'development') {
+    error.details = error.details.filter((detail) => {
+      return detail.code !== -1 && detail.type !== 'RawError'
+    })
+  } 
+  res.status(statusCode).json(error)
+}

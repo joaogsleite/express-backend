@@ -1,4 +1,4 @@
-import { AuthError } from "utils/express/errors";
+import { AuthError } from "utils/express/errors"
 
 export async function onSuccess(userId) {
   return { 
@@ -7,14 +7,28 @@ export async function onSuccess(userId) {
   }
 }
 
-export function oauth () {
+export function microsoftCallback () {
 
 }
 
-export function local (email, password, done) {
+export async function localCallback (email, password, done) {
+  const where = { email, password }
+  try {
+    const user = await User.find({where})
+    if (user && user.email) {
+      return done()
+    }
+  } finally {
+    done(new AuthError({
+      message: 'Wrong email or password',
+      code: AuthError.LOGIN_INCORRECT,
+    }))
+  }
+
+
   if (email === 'joaogsleite@gmail.com' && password === 'password') {
     done(undefined, { email, password })
   } else {
-    done (new AuthError())
+    
   }
 }
