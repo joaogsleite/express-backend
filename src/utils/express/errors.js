@@ -59,10 +59,16 @@ export class HttpError extends Error {
       })
     }
     if (props.raw || props.error) {
+      let error = {}
+      if (props.raw) {
+        error = props.raw
+      } else if (props.error) {
+        error = props.error
+      }
       this.details.push({
         type: 'RawError',
         code: -1,
-        message: props.raw || props.error,
+        message: error.stack,
       })
     }
   }
@@ -73,6 +79,7 @@ export class HttpError extends Error {
 
 export class AuthError extends HttpError {
   static LOGIN_INCORRECT = 1
+  static OAUTH_CREATE_USER = 2
   constructor(props) {
     super({...props, type: TYPES.AUTH_ERROR })
   }

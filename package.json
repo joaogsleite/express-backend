@@ -5,7 +5,19 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "task": "node ./tasks",
-    "dev": "NODE_ENV=development babel-node --config-file ./.babelrc --extensions \".js,.ts,.json\" ./src/index.js"
+    "db:start": "npm run task -- db:start",
+    "db:stop": "npm run task -- db:stop",
+    "db:shell": "npm run task -- db:shell",
+    "db:deploy": "npm run task -- db:deploy",
+    "clean": "npm run task -- clean",
+    "build": "npm run task -- build",
+    "zip": "npm run task -- zip",
+    "deploy:dev": "npm run task -- deploy dev",
+    "deploy:uat": "npm run task -- deploy uat",
+    "forever:start": "npm run task -- forever:start",
+    "forever:stop": "npm run task -- forever:stop",
+    "dev": "NODE_ENV=development babel-node --config-file ./.babelrc --extensions \".js,.ts,.json\" ./src/index.js",
+    "start": "node build/index.js"
   },
   "author": "",
   "license": "ISC",
@@ -21,6 +33,7 @@
     "passport": "^0.4.0",
     "passport-azure-ad": "^4.0.0",
     "passport-local": "^1.0.0",
+    "passport-microsoft": "0.0.5",
     "sequelize": "^5.8.6",
     "serve-favicon": "^2.5.0"
   },

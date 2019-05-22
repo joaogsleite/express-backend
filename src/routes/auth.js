@@ -17,16 +17,15 @@ log('router created')
 
 router.post('/local',
   passport.authenticate('local'),
-  runController(
-    onSuccess, ['user.id']
-  )
+  (req, res) => res.json(req.user)
 )
 
-router.get('/oauth',
-  passport.authenticate('oauth'),
-  runController(
-    onSuccess, ['user.id']
-  )
+router.get('/microsoft',
+  passport.authenticate('microsoft'),
+)
+router.get('/microsoft/callback',
+  passport.authenticate('microsoft'),
+  (req, res) => res.redirect('/')
 )
 
 router.use(errorHandler)

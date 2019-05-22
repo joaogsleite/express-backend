@@ -9,6 +9,7 @@ const { SERVER_PORT = 3001 } = process.env
 expressServer.set('port', Number(SERVER_PORT))
 
 const httpServer = http.createServer(expressServer)
+httpServer.listen(Number(SERVER_PORT))
 export default httpServer
 log('server created')
 

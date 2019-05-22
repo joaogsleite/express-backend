@@ -23,7 +23,7 @@ function start() {
       image: 'mysql:5.6',
       name: dockerContainerName,
       background: true,
-      ports: { '3306': DB_PORT },
+      ports: { '3306': Number(DB_PORT) },
       envs: { 
         MYSQL_ROOT_PASSWORD: DB_PASS,
         MYSQL_DATABASE: DB_NAME, 

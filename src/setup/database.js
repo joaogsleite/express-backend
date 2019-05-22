@@ -8,6 +8,7 @@ const {
   DB_USER = 'root',
   DB_PASS,
   DB_HOST = '127.0.0.1',
+  DB_PORT = 3306,
   DB_DIALECT = 'mysql',
   DB_LOG = false,
   DB_CLEAN = false,
@@ -25,6 +26,7 @@ log('DB_CLEAN', DB_CLEAN)
 
 const options = {
   host:    DB_HOST,
+  port:    Number(DB_PORT),
   dialect: DB_DIALECT,
   logging: DB_LOG === 'true',
   ssl: DB_SSL === 'true',
@@ -41,6 +43,8 @@ const database = new Sequelize(
   DB_PASS || '',
   options
 )
+
+database.sync({ force: DB_CLEAN === 'true' })
 
 export default database
 

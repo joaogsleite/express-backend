@@ -13,7 +13,7 @@ log('start')
 const router = Router()
 
 router.use('/api', apiRouter)
-router.use('/auth', authRouter)
+router.use('/connect', authRouter)
 router.use(wwwRoute)
 
 export default router
