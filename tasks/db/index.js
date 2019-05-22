@@ -62,9 +62,7 @@ function backup() {
 }
 
 function shell() {
-  const shellOptions = {
-    stdio: 'inherit'
-  }
+  const shellOptions = { nopipe: true }
   if (DOCKER) {
     const dockerOptions = { interactive: true }
     dockerSh(dockerContainerName, `mysql -u ${DB_USER} -p${DB_PASS} ${DB_NAME}`, dockerOptions, shellOptions)
