@@ -1,26 +1,29 @@
 
 const { sh, ssh, runTask, scp, runRemoteTask } = require('./utils')
 
-const servers = {
-  dev: { 
-    user: 'test',
-    host: 'leite.tk',
-    remotePath: '~/test',
-  },
-  uat: { 
-    user: 'test',
-    host: 'leite.tk',
-    remotePath: '~/test',
-  },
-}
+const servers = Object.keys(process.env).filter((key) => {
+  return key.includes('SSH_DEPLOY')
+}).map((key) => {
+  const value = process.env[key]
+  const env = key.split('SSH_DEPLOY_')[1]
+  const user = value.split('@')[0]
+  const host = value.split('@')[1].split(':')[0]
+  const remotePath = value.includes(':')[1]
+  return { env, user, host, remotePath }
+})
 
 function remote (options, name, taskName, ...args) {
   return runRemoteTask(servers[name], taskName, ...args)
 }
 
-function deploy(options, name = 'dev') {
+function deploy(options, env = 'DEV') {
   
-  const server = servers[name]
+  const server = servers.find(s => s.env === env.toUpperCase())
+  if (!server) {
+    console.log(`Environment ${env} not found!`)
+    console.log(`Setup SSH_DEPLOY_{env} variable in .env file`)
+    process.exit(1)
+  }
 
   // zip build folder
   runTask('zip')
@@ -40,9 +43,14 @@ function deploy(options, name = 'dev') {
   runRemoteTask(server, 'forever:restart')
 }
 
-function deployDB(options, db = 'mysql', name = 'dev') {
+function deployDB(options, db = 'mysql', env = 'DEV') {
 
-  const server = servers[name]
+  const server = servers.find(s => s.env === env.toUpperCase())
+  if (!server) {
+    console.log(`Environment ${env} not found!`)
+    console.log(`Setup SSH_DEPLOY_{env} variable in .env file`)
+    process.exit(1)
+  }
 
   // send dump files to server
   switch (db){
