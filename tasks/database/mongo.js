@@ -12,6 +12,8 @@ const {
 } = process.env
 
 const dockerContainerName = `mongo-${DB_NAME}`
+const PROJECT_ROOT = `${__dirname}/../..`
+const MONGO_AUTH = `--authenticationDatabase admin -u ${DB_USER} -p ${DB_PASS}`
 
 function deploy(options, server) {
   runTask('deployDB', server)
@@ -42,33 +44,31 @@ function stop() {
 }
 
 function restore() {
-  const dump = fs.readFileSync(`${__dirname}/backup.mongo`)
   if (DOCKER) {
-    sh(`docker cp ${__dirname}/backup.mongo ${dockerContainerName}:backup.mongo`)
-    dockerSh(dockerContainerName, `not implemented yet!`)
+    dockerSh(dockerContainerName, `rm -rf mongodump/ || true`)
+    sh(`docker cp ${PROJECT_ROOT}/mongodump/ ${dockerContainerName}:mongodump/`)
+    dockerSh(dockerContainerName, `mongorestore --drop -d ${DB_NAME} mongodump/ ${MONGO_AUTH}`)
   } else {
-    sh(`not implemented yet!`)
+    sh(`mongorestore --drop -d ${DB_NAME} ${PROJECT_ROOT}/mongodump/ ${MONGO_AUTH}`)
   }
 }
 
 function backup() {
-  let dump
   if (DOCKER) {
-    dump = dockerSh(dockerContainerName, `echo "not implemented yet!"`)
+    dockerSh(dockerContainerName, `mongodump --out mongodump/ --db ${DB_NAME} ${MONGO_AUTH}`)
+    sh(`docker cp ${dockerContainerName}:mongodump/${DB_NAME}/ ${PROJECT_ROOT}/mongodump/`)
   } else {
-    dump = sh(`echo "not implemented yet!`)
+    sh(`mongodump --out ${PROJECT_ROOT}/mongodump/ --db ${DB_NAME} ${MONGO_AUTH}`)
   }
-  fs.writeFileSync(`${__dirname}/backup.mongo`, dump)
 }
 
 function shell() {
   const shellOptions = { nopipe: true }
-  const auth = `--authenticationDatabase admin -u ${DB_USER} -p ${DB_PASS}`
   if (DOCKER) {
     const dockerOptions = { interactive: true }
-    dockerSh(dockerContainerName, `mongo ${DB_NAME} ${auth}`, dockerOptions, shellOptions)
+    dockerSh(dockerContainerName, `mongo ${DB_NAME} ${MONGO_AUTH}`, dockerOptions, shellOptions)
   } else {
-    sh(`mongo ${DB_NAME} --host ${DB_HOST} --port ${DB_PORT} ${auth}`, shellOptions)
+    sh(`mongo ${DB_NAME} --host ${DB_HOST} --port ${DB_PORT} ${MONGO_AUTH}`, shellOptions)
   } 
 }
 

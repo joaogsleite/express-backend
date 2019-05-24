@@ -3,4 +3,7 @@ node_modules/
 build/
 build.zip
 
+backup.sql
+mongodump/
+
 .env

@@ -12,6 +12,7 @@ const {
 } = process.env
 
 const dockerContainerName = `mysql-${DB_NAME}`
+const PROJECT_ROOT = `${__dirname}/../../`
 
 function deploy(options, server) {
   runTask('deployDB', server)
@@ -42,9 +43,9 @@ function stop() {
 }
 
 function restore() {
-  const dump = fs.readFileSync(`${__dirname}/backup.sql`)
+  const dump = fs.readFileSync(`${PROJECT_ROOT}/backup.sql`)
   if (DOCKER) {
-    sh(`docker cp ${__dirname}/backup.sql ${dockerContainerName}:backup.sql`)
+    sh(`docker cp ${PROJECT_ROOT}/backup.sql ${dockerContainerName}:backup.sql`)
     dockerSh(dockerContainerName, `sh -c "mysql -u ${DB_USER} -p${DB_PASS} ${DB_NAME} < backup.sql"`)
   } else {
     sh(`mysql -h ${DB_HOST} -P ${DB_PORT} -u ${DB_USER} -p${DB_PASS} ${DB_NAME} << EndOfDumpFile\n${dump}\nEndOfDumpFile`)
@@ -58,7 +59,7 @@ function backup() {
   } else {
     dump = sh(`mysqldump -h ${DB_HOST} -P ${DB_PORT} -u ${DB_USER} -p${DB_PASS} ${DB_NAME} | grep -v "Warning: Using a password"`)
   }
-  fs.writeFileSync(`${__dirname}/backup.sql`, dump)
+  fs.writeFileSync(`${PROJECT_ROOT}/backup.sql`, dump)
 }
 
 function shell() {
