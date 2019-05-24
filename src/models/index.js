@@ -1,5 +1,5 @@
 // database instance
-import database from 'setup/database'
+import database from 'setup/mysql'
 
 
 // import models

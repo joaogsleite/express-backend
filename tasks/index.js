@@ -1,8 +1,10 @@
 
 const { cli } = require('tasksfile')
 
+const mysql = require('./database/mysql')
+const mongo = require('./database/mongo')
+
 const deploy = require('./deploy')
-const db = require('./db')
 const build = require('./build')
 const forever = require('./forever')
 
@@ -10,7 +12,8 @@ cli({
   ...deploy,
   ...build,
   forever,
-  db,
+  mysql,
+  mongo,
 })
 
 // # ADD THIS TO YOUR .bashrc OR .zshrc FILE:
