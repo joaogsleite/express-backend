@@ -44,12 +44,11 @@ const database = new Sequelize(
   options
 )
 
-database.sync({ force: DB_CLEAN === 'true' })
-
 export default database
 
+database.sync({ force: DB_CLEAN === 'true' }).then(() => {
+  log('synced')
+  require('models')
+})
+
 log('end')
-
-
-
-

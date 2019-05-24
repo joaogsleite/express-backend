@@ -6,6 +6,10 @@ import { getProjectsByUser } from 'controllers/project'
 import { meAlias, isAuth, validate, runController } from 'utils/express/middlewares'
 import { idSchema } from 'utils/express/schemas'
 
+import logger from 'utils/logger'
+const log = logger('routes/api/user')
+log('start')
+
 const router = new Router()
 
 router.get('/:id',
@@ -25,5 +29,7 @@ router.get('/:id/projects',
     getProjectsByUser, ['params.id', 'user.id']
   )
 )
+
+log('end')
 
 export default router

@@ -7,7 +7,7 @@ import wwwRoute from 'routes/www'
 
 // logger
 import logger from 'utils/logger'
-const log = logger('routes/www')
+const log = logger('routes')
 
 log('start')
 const router = Router()
