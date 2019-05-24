@@ -16,7 +16,7 @@ const PROJECT_ROOT = `${__dirname}/../..`
 const MONGO_AUTH = `--authenticationDatabase admin -u ${DB_USER} -p ${DB_PASS}`
 
 function deploy(options, server) {
-  runTask('deployDB', server)
+  runTask('deployDB', 'mongo', server)
 }
 
 function start() {

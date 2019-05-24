@@ -15,7 +15,7 @@ const dockerContainerName = `mysql-${DB_NAME}`
 const PROJECT_ROOT = `${__dirname}/../../`
 
 function deploy(options, server) {
-  runTask('deployDB', server)
+  runTask('deployDB', 'mysql', server)
 }
 
 function start() {

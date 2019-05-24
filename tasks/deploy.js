@@ -40,15 +40,23 @@ function deploy(options, name = 'dev') {
   runRemoteTask(server, 'forever:restart')
 }
 
-function deployDB(options, name = 'dev') {
+function deployDB(options, db = 'mysql', name = 'dev') {
 
   const server = servers[name]
 
-  // send backup.sql to server
-  scp(server, `${__dirname}/db/backup.sql`)
+  // send dump files to server
+  switch (db){
+    case 'mongo':
+      scp(server, `${__dirname}/../mongodump/`)
+      break
+    case 'mysql':
+    default:
+      scp(server, `${__dirname}/../backup.sql`)
+      break
+  }
 
-  // restore db from backup.sql
-  runRemoteTask(server, 'db:restore')
+  // restore db from dump files
+  runRemoteTask(server, `${db}:restore`)
 }
 
 module.exports = {
