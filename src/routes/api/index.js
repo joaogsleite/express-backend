@@ -2,7 +2,7 @@ import { Router } from 'express'
 
 // routes
 import userRouter from 'routes/api/user'
-import projectRouter from 'routes/api/project'
+import postRouter from 'routes/api/post'
 
 // middlewares
 import { errorHandler } from 'utils/express/middlewares'
@@ -15,7 +15,7 @@ log('start')
 const router = Router()
 
 router.use('/users', userRouter)
-router.use('/projects', projectRouter)
+router.use('/posts', postRouter)
 
 router.use(errorHandler)
 

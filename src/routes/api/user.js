@@ -1,7 +1,7 @@
 import { Router } from 'express'
 
 import { getUser } from 'controllers/user'
-import { getProjectsByUser } from 'controllers/project'
+import { getPostsByUser } from 'controllers/post'
 
 import { meAlias, isAuth, validate, runController } from 'utils/express/middlewares'
 import { idSchema } from 'utils/express/schemas'
@@ -21,12 +21,12 @@ router.get('/:id',
   )
 )
 
-router.get('/:id/projects',
+router.get('/:id/posts',
   isAuth(),
   meAlias(),
   validate('params.id', idSchema),
   runController(
-    getProjectsByUser, ['params.id', 'user.id']
+    getPostsByUser, ['params.id', 'user.id']
   )
 )
 

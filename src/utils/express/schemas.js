@@ -10,8 +10,8 @@ export const userSchema = Joi.object().keys({
   id: Joi.number().integer().positive(),
 })
 
-export const projectSchema = Joi.object().keys({
-  name: Joi.string().required(),
+export const postSchema = Joi.object().keys({
+  title: Joi.string().required(),
 })
 
 export const idSchema = Joi.number().integer().positive()

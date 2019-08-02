@@ -8,7 +8,7 @@ import {
   HasManyCreateAssociationMixin,
 } from 'sequelize'
 
-import { Project } from './project'
+import { Post } from './post'
 
 declare class User extends Model {
   public id!: number
@@ -21,16 +21,16 @@ declare class User extends Model {
 
   static getById(id: number): Promise<User>
 
-  public getProjects!: HasManyGetAssociationsMixin<Project>
-  public addProject!: HasManyAddAssociationMixin<Project, number>
-  public hasProject!: HasManyHasAssociationMixin<Project, number>
-  public countProjects!: HasManyCountAssociationsMixin
-  public createProject!: HasManyCreateAssociationMixin<Project>
+  public getPosts!: HasManyGetAssociationsMixin<Post>
+  public addPost!: HasManyAddAssociationMixin<Post, number>
+  public hasPost!: HasManyHasAssociationMixin<Post, number>
+  public countPosts!: HasManyCountAssociationsMixin
+  public createPost!: HasManyCreateAssociationMixin<Post>
 
-  public readonly projects?: Project[]
+  public readonly posts?: Post[]
 
   public static associations: {
-    projects: Association<User, Project>
+    posts: Association<User, Post>
   }
 }
 

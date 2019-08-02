@@ -1,6 +1,6 @@
 
 export const RESOURCES = {
-  PROJECT: 'project',
+  POST: 'post',
   USER: 'user',
 }
 export const ACTIONS = {

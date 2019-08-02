@@ -1,6 +1,6 @@
 import Sequelize, { Model } from 'sequelize'
 
-import Project from './project'
+import Post from './post'
 
 export default class User extends Model {
   static init (sequelize) {
@@ -16,9 +16,9 @@ export default class User extends Model {
     const options = {
       sourceKey: 'id',
       foreignKey: 'ownerId',
-      as: 'projects',
+      as: 'posts',
     }
-    User.hasMany(Project, options)
+    User.hasMany(Post, options)
   }
 
   static getById (id) {
