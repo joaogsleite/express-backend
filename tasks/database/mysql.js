@@ -76,7 +76,7 @@ function exec(options, name) {
   const shellOptions = { nopipe: true }
   const scriptPath = `./tasks/database/scripts/${name}.sql`
   if (DOCKER) {
-    const dockerOptions = { interactive: false }
+    const dockerOptions = { interactive: true, tty: false }
     dockerSh(dockerContainerName, `mysql -u ${DB_USER} -p${DB_PASS} ${DB_NAME} < ${scriptPath}`, dockerOptions, shellOptions)
   } else {
     sh(`mysql -h ${DB_HOST} -P ${DB_PORT} -u ${DB_USER} -p${DB_PASS} ${DB_NAME} < ${scriptPath}`, shellOptions)

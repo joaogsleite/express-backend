@@ -22,8 +22,8 @@ const runTask = (taskName, options = defaultOptions) => {
   return sh(`npm run task -- ${taskName}`, options)
 }
 
-const dockerSh = (name, command, { interactive } = {}, options = defaultOptions) => {
-  return sh(`docker exec ${interactive ? '-it' : ''} ${name} ${command}`, options)
+const dockerSh = (name, command, { interactive, tty } = {}, options = defaultOptions) => {
+  return sh(`docker exec ${interactive ? (tty !== false ? '-it' : '-i') : ''} ${name} ${command}`, options)
 }
 
 const dockerStart = ({image, name, interactive, background, volumes={}, ports={}, envs={}}, command='', options = defaultOptions) => {
