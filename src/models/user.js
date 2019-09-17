@@ -1,6 +1,7 @@
 import Sequelize, { Model } from 'sequelize'
 
 import Post from './post'
+import Role from './role'
 
 export default class User extends Model {
   static init (sequelize) {
@@ -13,12 +14,17 @@ export default class User extends Model {
     super.init(schema, options)
   }
   static associate () {
-    const options = {
+    User.hasMany(Post, {
       sourceKey: 'id',
       foreignKey: 'ownerId',
       as: 'posts',
-    }
-    User.hasMany(Post, options)
+    })
+    User.belongsToMany(Role, {
+      through: 'userrole',
+      foreignKey: 'userId',
+      otherKey: 'roleId',
+      as: 'roles',
+    })
   }
 
   static getById (id) {
@@ -27,10 +33,16 @@ export default class User extends Model {
   }
 
   toJSON() {
-    return {
+    const obj = {
       id: this.id,
       name: this.name,
       email: this.email,
     }
+    if (Array.isArray(this.roles)) {
+      obj.roles = this.roles.map((role) => {
+        return role.toJSON()
+      })
+    }
+    return obj
   }
 }

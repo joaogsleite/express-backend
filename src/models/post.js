@@ -1,7 +1,5 @@
 import Sequelize, { Model } from 'sequelize'
 
-import Tag from './tag'
-
 export default class Post extends Model {
   static init (sequelize) {
     const schema = {
@@ -14,14 +12,7 @@ export default class Post extends Model {
     const where = { id }
     return Post.findOne({ where })
   }
-  static associate () {
-    const options = {
-      through: 'tagpost',
-      foreignKey: 'postId',
-      otherKey: 'tagId',
-    }
-    Post.belongsToMany(Tag, options)
-  }
+  static associate () {}
   
   toJSON() {
     return {
