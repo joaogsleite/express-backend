@@ -52,8 +52,8 @@ declare class User extends Model {
   public readonly roles?: Role[]
 
   public static associations: {
-    posts: Association<User, Post>
-    roles: Association<User, Post>
+    posts: Association<User, Post>,
+    roles: Association<User, Post>,
   }
 }
 
