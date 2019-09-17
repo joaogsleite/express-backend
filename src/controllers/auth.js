@@ -1,13 +1,16 @@
-import { User } from 'models'
+import { User, Role } from 'models'
 
 import { AuthError } from "utils/express/errors"
 
+const include = [
+  { model: Role, as: 'roles' },
+]
 
 export async function microsoftCallback (accessToken, refreshToken, profile, done) {
   try {
     const where = { email: profile.emails[0].value }
     const defaults = { name: profile.displayName }
-    const [user] = await User.findOrCreate({ where, defaults })
+    const [user] = await User.findOrCreate({ where, defaults, include })
     done(undefined, user.toJSON())
   } catch (error) {
     console.log(error)
@@ -23,7 +26,7 @@ export async function microsoftCallback (accessToken, refreshToken, profile, don
 export async function localCallback (email, password, done) {
   const where = { email, password }
   try {
-    const user = await User.findOne({where})
+    const user = await User.findOne({ where, include })
     if (user && user.email) {
       return done(undefined, user.toJSON())
     } else {
