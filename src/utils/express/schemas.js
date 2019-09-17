@@ -8,6 +8,8 @@ export const loginSchema = Joi.object().keys({
 export const userSchema = Joi.object().keys({
   email: Joi.string().email().required(),
   id: Joi.number().integer().positive(),
+  roles: Joi.any(),
+  name: Joi.string(),
 })
 
 export const postSchema = Joi.object().keys({

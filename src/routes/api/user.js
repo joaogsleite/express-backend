@@ -1,6 +1,6 @@
 import { Router } from 'express'
 
-import { getUser } from 'controllers/user'
+import { getUserById } from 'controllers/user'
 import { getPostsByUser } from 'controllers/post'
 
 import { meAlias, isAuth, validate, runController } from 'utils/express/middlewares'
@@ -17,7 +17,7 @@ router.get('/:id',
   meAlias(),
   validate('params.id', idSchema),
   runController(
-    getUser, ['params.id', 'user.id']
+    getUserById, ['params.id', 'user.id']
   )
 )
 
