@@ -11,6 +11,8 @@
     "mysql:backup": "npm run task -- mysql:backup",
     "mysql:restore": "npm run task -- mysql:restore",
     "mysql:deploy": "npm run task -- mysql:deploy",
+    "mysql:exec": "npm run task -- mysql:exec",
+    "mysql:populate": "npm run mysql:exec -- populate",
     "mongo:start": "npm run task -- mongo:start",
     "mongo:stop": "npm run task -- mongo:stop",
     "mongo:shell": "npm run task -- mongo:shell",
