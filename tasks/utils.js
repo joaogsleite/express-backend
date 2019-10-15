@@ -4,14 +4,39 @@ const dotenv = require('dotenv')
 
 dotenv.config()
 
-const defaultOptions = { stdio: 'pipe' }
+const defaultOptions = { stdio: 'pipe', nopipe: true }
 
-const ssh = ({user, host, port = 22, remotePath = './'}, cmd, options = defaultOptions) => {
-  return sh(`ssh -p ${port} ${user}@${host} 'cd ${remotePath}\n${cmd}'`, options)
+const shWithKey = (cmd, key, options) => {
+  return sh(`
+    eval $(ssh-agent -s)
+    echo "${key.replace('\n', '\\n')}" | ssh-add /dev/stdin
+    ${cmd}
+    ssh-agent -k
+  `, options)
 }
 
-const scp = ({user, host, port = 22, remotePath = './'}, localFile, remoteFile = '', options = defaultOptions) => {
-  return sh(`scp -P ${port} ${localFile} ${user}@${host}:${remotePath}/${remoteFile}`, options)
+const ssh = ({user, host, port = 22, remotePath = './', key}, cmd, options = defaultOptions) => {
+  remotePath = remotePath[remotePath.length - 1] === '/'
+    ? remotePath
+    : remotePath + '/'
+  const sshCommand = `ssh -p ${port} ${user}@${host} 'cd ${remotePath}\n${cmd}'`
+  if (key) {
+    return shWithKey(sshCommand, key, options)
+  } else {
+    return sh(sshCommand, options)
+  }
+}
+
+const scp = ({user, host, port = 22, remotePath = './', key}, localFile, remoteFile = '', options = defaultOptions) => {
+  remotePath = remotePath[remotePath.length - 1] === '/'
+    ? remotePath
+    : remotePath + '/'
+  const scpCommand = `scp -P ${port} ${localFile} ${user}@${host}:${remotePath}${remoteFile}`
+  if (key) {
+    return shWithKey(scpCommand, key, options)
+  } else {
+    return sh(scpCommand, options)
+  }
 }
 
 const runRemoteTask = (server, taskName, ...args) => {

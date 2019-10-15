@@ -1,15 +1,23 @@
 
 const { sh, ssh, runTask, scp, runRemoteTask } = require('./utils')
 
+const keys = Object.keys(process.env).filter((key) => {
+  return key.includes('SSH_KEY')
+}).map((objKey) => {
+  const contents = process.env[objKey]
+  const env = objKey.split('SSH_KEY_')[1]
+  return { env, contents }
+})
 const servers = Object.keys(process.env).filter((key) => {
   return key.includes('SSH_DEPLOY')
-}).map((key) => {
-  const value = process.env[key]
-  const env = key.split('SSH_DEPLOY_')[1]
+}).map((objKey) => {
+  const value = process.env[objKey]
+  const env = objKey.split('SSH_DEPLOY_')[1]
   const user = value.split('@')[0]
   const host = value.split('@')[1].split(':')[0]
-  const remotePath = value.includes(':')[1]
-  return { env, user, host, remotePath }
+  const remotePath = value.split(':')[1]
+  const key = keys.find(k => k.env === env)
+  return { env, user, host, remotePath, key: key && key.contents }
 })
 
 function remote (options, name, taskName, ...args) {
