@@ -7,9 +7,12 @@ dotenv.config()
 const defaultOptions = { stdio: 'pipe', nopipe: true }
 
 const shWithKey = (cmd, key, options) => {
+  const addKeyCommand = key.includes('.pem')
+    ? `ssh-add ${key}`
+    : `echo "${key.replace('\n', '\\n')}" | ssh-add /dev/stdin`
   return sh(`
     eval $(ssh-agent -s)
-    echo "${key.replace('\n', '\\n')}" | ssh-add /dev/stdin
+    ${addKeyCommand}
     ${cmd}
     ssh-agent -k
   `, options)
