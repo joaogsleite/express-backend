@@ -26,17 +26,17 @@ send build folder and necessary files to server
 restart forever in remote server
 
 
-### `mysql:start`
+#### `mysql:start`
 
 start docker container with mysql database
 
 
-### `mysql:stop`
+#### `mysql:stop`
 
 stop docker container with mysql database
 
 
-### `mysql:shell`
+#### `mysql:shell`
 
 access mysql shell
 
