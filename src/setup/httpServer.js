@@ -21,16 +21,12 @@ function onError (error) {
     throw error
   }
 
-  const bind = typeof port === 'string'
-    ? 'Pipe ' + port
-    : 'Port ' + port
-
   switch (error.code) {
     case 'EACCES':
-      log(bind + ' requires elevated privileges')
+      log('Port requires elevated privileges')
       process.exit(1)
     case 'EADDRINUSE':
-      log(bind + ' is already in use')
+      log('Port is already in use')
       process.exit(1)
     default:
       throw error

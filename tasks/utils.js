@@ -4,18 +4,21 @@ const dotenv = require('dotenv')
 
 dotenv.config()
 
-const defaultOptions = { stdio: 'pipe', nopipe: true }
+const defaultOptions = { stdio: 'pipe' }
 
 const shWithKey = (cmd, key, options) => {
-  const addKeyCommand = key.includes('.pem')
-    ? `ssh-add ${key}`
-    : `echo "${key.replace('\n', '\\n')}" | ssh-add /dev/stdin`
-  return sh(`
-    eval $(ssh-agent -s)
-    ${addKeyCommand}
-    ${cmd}
-    ssh-agent -k
-  `, options)
+  if (key) {
+    const addKeyCommand = key.includes('.pem')
+      ? `ssh-add ${key}`
+      : `echo "${key.replace('\n', '\\n')}" | ssh-add /dev/stdin`
+    cmd = `
+      eval $(ssh-agent -s)
+      ${addKeyCommand}
+      ${cmd}
+      ssh-agent -k
+    `
+  }
+  return sh(cmd, options)
 }
 
 const ssh = ({user, host, port = 22, remotePath = './', key}, cmd, options = defaultOptions) => {
@@ -46,8 +49,8 @@ const runRemoteTask = (server, taskName, ...args) => {
   return ssh(server, `npm run task -- ${taskName} ${args.join(' ')}`, defaultOptions)
 }
 
-const runTask = (taskName, options = defaultOptions) => {
-  return sh(`npm run task -- ${taskName}`, options)
+const runTask = (...args) => {
+  return sh(`npm run task -- ${args.join(' ')}`, defaultOptions)
 }
 
 const dockerSh = (name, command, { interactive, tty } = {}, options = defaultOptions) => {

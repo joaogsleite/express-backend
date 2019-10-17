@@ -1,9 +1,10 @@
 node_modules/
 
-build/
-build.zip
+/build/
+/build.zip
 
-backup.sql
-mongodump/
+/tasks/database/scripts/backup.sql
 
 .env
+
+/*.log
