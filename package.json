@@ -7,6 +7,7 @@
     "task": "node ./tasks",
     "mysql:start": "npm run task -- mysql:start",
     "mysql:stop": "npm run task -- mysql:stop",
+    "mysql:web": "npm run task -- mysql:web",
     "mysql:shell": "npm run task -- mysql:shell",
     "mysql:backup": "npm run task -- mysql:backup",
     "mysql:restore": "npm run task -- mysql:restore",

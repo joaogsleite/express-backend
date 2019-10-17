@@ -26,32 +26,37 @@ send build folder and necessary files to server
 restart forever in remote server
 
 
-### `db:start`
+### `mysql:start`
 
 start docker container with mysql database
 
 
-### `db:stop`
+### `mysql:stop`
 
 stop docker container with mysql database
 
 
-### `db:shell`
+### `mysql:shell`
 
 access mysql shell
 
 
-#### `db:backup`
+#### `mysql:backup`
 
 backup local database to `backup.sql` file
 
 
-#### `db:restore`
+#### `mysql:restore`
 
 restore `backup.sql` into local database
 
 
-#### `db:deploy <server>`
+### `mysql:web [-- PORT]`
+
+starts phpMyAdmin web client in http://localhost:8006 or http://localhost:PORT
+
+
+#### `mysql:deploy <server>`
 
 deploys `backup.sql` to remote database
 

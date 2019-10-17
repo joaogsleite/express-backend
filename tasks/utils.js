@@ -54,7 +54,7 @@ const dockerSh = (name, command, { interactive, tty } = {}, options = defaultOpt
   return sh(`docker exec ${interactive ? (tty !== false ? '-it' : '-i') : ''} ${name} ${command}`, options)
 }
 
-const dockerStart = ({image, name, interactive, background, volumes={}, ports={}, envs={}}, command='', options = defaultOptions) => {
+const dockerStart = ({image, name, interactive, background, links={}, volumes={}, ports={}, envs={}}, command='', options = defaultOptions) => {
   return sh(`
     docker run \
     ${interactive ? '-it' : ''} \
@@ -63,12 +63,13 @@ const dockerStart = ({image, name, interactive, background, volumes={}, ports={}
     ${Object.keys(ports).map(port => `-p ${port}:${ports[port]}`).join(' ')} \
     ${Object.keys(volumes).map(vol => `-v ${vol}:${volumes[vol]}`).join(' ')} \
     ${Object.keys(envs).map(env => `-e ${env}=${envs[env]}`).join(' ')} \
+    ${Object.keys(links).map(link => `--link ${link}:${links[link]}`).join(' ')} \
     ${image} ${command}
   `, options)
 }
 
 const dockerStop = (name, options = defaultOptions) => {
-  return sh(`docker container rm -f ${name}`, options)
+  return sh(`docker container rm -f ${name} || true`, options)
 }
 
 module.exports = {

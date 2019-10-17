@@ -28,6 +28,8 @@ function start() {
       envs: { 
         MYSQL_ROOT_PASSWORD: DB_PASS,
         MYSQL_DATABASE: DB_NAME, 
+        PMA_HOST: dockerContainerName,
+        PMA_PORT: DB_PORT,
       }
     })
   } else {
@@ -36,6 +38,7 @@ function start() {
 }
 function stop() {
   if (DOCKER) {
+    dockerStop(`phpmyadmin-${DB_NAME}`, {})
     dockerStop(dockerContainerName)
   } else {
     console.log('set DOCKER=true and DB_... variables on .env file')
@@ -83,6 +86,27 @@ function exec(options, name) {
   } 
 }
 
+function phpMyAdminStart(options, port = 8006) {
+  if (DOCKER) {
+    dockerStart({
+      image: 'phpmyadmin/phpmyadmin',
+      name: `phpmyadmin-${DB_NAME}`,
+      background: true,
+      ports: { [port]: 80 },
+      envs: { 
+        PMA_HOST: dockerContainerName,
+        PMA_USER: 'root',
+        PMA_PASSWORD: DB_PASS,
+        MYSQL_ROOT_PASSWORD: DB_PASS,
+      },
+      links: { [dockerContainerName]: dockerContainerName },
+    })
+    console.log(`\n>>> Open your browser: http://localhost:${port}\n`)
+  } else {
+    console.log('set DOCKER=true and DB_... variables on .env file')
+  }
+}
+
 module.exports = {
   start,
   stop,
@@ -91,4 +115,5 @@ module.exports = {
   shell,
   deploy,
   exec,
+  web: phpMyAdminStart,
 }
