@@ -51,7 +51,7 @@ backup local database to `backup.sql` file
 restore `backup.sql` into local database
 
 
-### `mysql:web [-- PORT]`
+#### `mysql:web [-- PORT]`
 
 starts phpMyAdmin web client in http://localhost:8006 or http://localhost:PORT
 
