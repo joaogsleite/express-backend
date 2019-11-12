@@ -12,7 +12,5 @@ export default router
 
 
 // routes
-import './local'
-import './microsoft'
 
 log('end')

@@ -13,5 +13,3 @@ passport.deserializeUser((user, cb) => {
 
 
 // strategies
-import './local'
-import './microsoft'
