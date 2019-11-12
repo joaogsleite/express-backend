@@ -30,6 +30,11 @@ router.get('/:id/posts',
   )
 )
 
-log('end')
-
 export default router
+
+
+// add router to parent router
+import parentRouter from '.'
+parentRouter.use('/users', router)
+
+log('end')
