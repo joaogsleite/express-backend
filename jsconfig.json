@@ -5,6 +5,6 @@
     "baseUrl": "./src"
   },
   "exclude": [
-    "build",
-  ],
+    "build"
+  ]
 }
