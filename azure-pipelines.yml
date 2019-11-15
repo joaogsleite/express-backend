@@ -1,0 +1,34 @@
+resources:
+  containers:
+    - container: node
+      image: node:10
+stages:
+  - stage: build
+    jobs:
+      - job: install
+        steps:
+          - script: npm install
+      - job: transpile
+        dependsOn: install
+        steps:
+          - script: npm run task -- build
+  - stage: test 
+    jobs:
+      - job:  test-1
+        steps:
+          - script: echo "No test defined"
+  - stage: deploy
+    condition: contains(variables['Build.SourceBranch'], 'refs/heads/release')
+    jobs:
+      - job: deploy-uat
+        condition: eq(variables['Build.SourceBranch'], 'refs/heads/release/uat')
+        steps:
+          - script: |
+              eval $(ssh-agent -s) && ssh-add <(echo "$SSH_PRIVATE_KEY")
+              npm run task -- deploy:uat
+      - job: deploy-dev
+        condition: eq(variables['Build.SourceBranch'], 'refs/heads/release/uat')
+        steps:
+          - script: |
+              eval $(ssh-agent -s) && ssh-add <(echo "$SSH_PRIVATE_KEY")
+              npm run task -- deploy:dev
