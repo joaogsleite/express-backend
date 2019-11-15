@@ -1,5 +1,6 @@
 
 const { sh } = require('./utils')
+const bestzip = require('bestzip')
 
 const BUILD_FOLDER = './build'
 const ZIP_INCLUDES = [
@@ -33,7 +34,10 @@ function zip() {
   sh(`rm -f build.zip || true`)
 
   // create new zip
-  sh(`zip -r build.zip ${ZIP_INCLUDES.join(' ')}`)
+  bestzip({
+    source: ZIP_INCLUDES,
+    destination: './build.zip',
+  })
 
 }
 
