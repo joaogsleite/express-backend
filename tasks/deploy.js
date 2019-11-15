@@ -29,7 +29,7 @@ function deploy(options, env = 'DEV') {
   const server = servers.find(s => s.env === env.toUpperCase())
   if (!server) {
     console.log(`Environment ${env} not found!`)
-    console.log(`Setup SSH_DEPLOY_{env} variable in .env file`)
+    console.log(`Setup SSH_DEPLOY_${env} variable in .env file`)
     process.exit(1)
   }
 
