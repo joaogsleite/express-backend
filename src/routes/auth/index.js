@@ -1,18 +1,22 @@
 // logger
-import logger from 'utils/logger'
-const log = logger('routes/auth')
-log('start')
-
+import logger from 'utils/logger';
 
 // express router
-import { Router } from 'express'
-const router = Router() 
-log('router created')
-export default router
-
+import { Router } from 'express';
 
 // routes
-import './local'
-import './microsoft'
+import localRouter from './local';
+import microsoftRouter from './microsoft';
 
-log('end')
+const log = logger('routes/auth');
+log('start');
+
+const router = Router();
+log('router created');
+
+router.use('/local', localRouter);
+router.use('/microsoft', microsoftRouter);
+
+export default router;
+
+log('end');

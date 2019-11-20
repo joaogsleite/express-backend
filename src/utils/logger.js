@@ -1,13 +1,13 @@
 
-import Debug from 'debug'
+import Debug from 'debug';
 
-const { 
+const {
   NAMESPACE = 'backend',
   DEBUG = 'backend:*',
-} = process.env
+} = process.env;
 
-Debug.enabled(DEBUG)
+Debug.enabled(DEBUG);
 
 export default function (name) {
-  return Debug(`${NAMESPACE}:${name}`)
+  return Debug(`${NAMESPACE}:${name}`);
 }
