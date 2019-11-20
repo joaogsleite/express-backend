@@ -1,37 +1,31 @@
-import { Router } from 'express'
+import { Router } from 'express';
 
-import { isAuth, validate, runController } from 'utils/express/middlewares'
-import { postSchema, idSchema } from 'utils/express/schemas'
+import { isAuth, validate, runController } from 'utils/express/middlewares';
+import { postSchema, idSchema } from 'utils/express/schemas';
 
-import { createPost, getPostById } from 'controllers/post'
+import { createPost, getPostById } from 'controllers/post';
 
-import logger from 'utils/logger'
-const log = logger('routes/api/post')
-log('start')
+import logger from 'utils/logger';
 
-const router = new Router()
+const log = logger('routes/api/post');
+log('start');
+
+const router = new Router();
 
 router.post('/',
   isAuth(),
   validate('body', postSchema),
   runController(
-    createPost, ['user.id', 'body']
-  )
-)
+    createPost, ['user.id', 'body'],
+  ));
 
 router.get('/:id',
   isAuth(),
   validate('params.id', idSchema),
   runController(
-    getPostById, ['params.id', 'user.id']
-  ),
-)
+    getPostById, ['params.id', 'user.id'],
+  ));
 
-export default router
+export default router;
 
-
-// add router to parent router
-import parentRouter from '.'
-parentRouter.use('/posts', router)
-
-log('end')
+log('end');

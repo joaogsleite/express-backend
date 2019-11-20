@@ -1,39 +1,40 @@
-import express from 'express'
-import bodyParser from 'body-parser'
-import cookieSession from 'cookie-session'
-//import fileUpload from 'express-fileupload'
-//import morgan from 'morgan'
+import express from 'express';
+import bodyParser from 'body-parser';
+import cookieSession from 'cookie-session';
+// import fileUpload from 'express-fileupload'
+// import morgan from 'morgan'
 
-import passport from './passport'
 
-import routes from 'routes'
+import routes from 'routes';
 
-import logger from 'utils/logger'
-const log = logger('setup/express')
-log('start')
+import logger from 'utils/logger';
+import passport from './passport';
 
-const { SERVER_SESSION_SECRET = 'keyboard cat' } = process.env
+const log = logger('setup/express');
+log('start');
 
-const server = express()
+const { SERVER_SESSION_SECRET = 'keyboard cat' } = process.env;
 
-//server.use(morgan('dev'))
+const server = express();
+
+// server.use(morgan('dev'))
 
 // cookies
-server.set('trust proxy', 1)
+server.set('trust proxy', 1);
 server.use(cookieSession({
   secret: SERVER_SESSION_SECRET,
-}))
+}));
 
-server.use(bodyParser.json())
-//server.use(bodyParser.urlencoded({ extended: false }))
+server.use(bodyParser.json());
+// server.use(bodyParser.urlencoded({ extended: false }))
 
-//server.use(fileUpload())
+// server.use(fileUpload())
 
-server.use(passport.initialize())
-server.use(passport.session())
+server.use(passport.initialize());
+server.use(passport.session());
 
-server.use(routes)
+server.use(routes);
 
-log('end')
+log('end');
 
-export default server
+export default server;

@@ -1,31 +1,25 @@
 // controllers
-import passport from 'setup/passport'
-
+import passport from 'setup/passport';
 
 // logger
-import logger from 'utils/logger'
-const log = logger('routes/auth/microsoft')
-log('start')
-
+import logger from 'utils/logger';
 
 // express router
-import { Router } from 'express'
-const router = Router() 
-log('router created')
+import { Router } from 'express';
+
+const log = logger('routes/auth/microsoft');
+log('start');
+
+const router = Router();
+log('router created');
 
 router.get('/',
-  passport.authenticate('microsoft'),
-)
+  passport.authenticate('microsoft'));
+
 router.get('/callback',
   passport.authenticate('microsoft'),
-  (req, res) => res.redirect('/')
-)
+  (req, res) => res.redirect('/'));
 
-export default router
+export default router;
 
-
-// add router to parent router
-import parentRouter from '.'
-parentRouter.use('/microsoft', router)
-
-log('end')
+log('end');
