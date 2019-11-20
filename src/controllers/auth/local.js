@@ -1,25 +1,24 @@
-import { User, Role } from 'models'
+import { User, Role } from 'models';
 
-import { AuthError } from "utils/express/errors"
+import { AuthError } from 'utils/express/errors';
 
 const include = [
   { model: Role, as: 'roles' },
-]
+];
 
-export default async function callback (email, password, done) {
-  const where = { email, password }
+export default async function callback(email, password, done) {
+  const where = { email, password };
   try {
-    const user = await User.findOne({ where, include })
+    const user = await User.findOne({ where, include });
     if (user && user.email) {
-      return done(undefined, user.toJSON())
-    } else {
-      throw new Error()
+      return done(undefined, user.toJSON());
     }
+    throw new Error();
   } catch (error) {
-    done(new AuthError({
+    return done(new AuthError({
       message: 'Wrong email or password',
       code: AuthError.LOGIN_INCORRECT,
       error,
-    }))
+    }));
   }
 }

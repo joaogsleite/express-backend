@@ -1,28 +1,22 @@
 // controllers
-import passport from 'setup/passport'
-
+import passport from 'setup/passport';
 
 // logger
-import logger from 'utils/logger'
-const log = logger('routes/auth/local')
-log('start')
-
+import logger from 'utils/logger';
 
 // express router
-import { Router } from 'express'
-const router = Router() 
-log('router created')
+import { Router } from 'express';
+
+const log = logger('routes/auth/local');
+log('start');
+
+const router = Router();
+log('router created');
 
 router.post('/',
   passport.authenticate('local'),
-  (req, res) => res.json(req.user)
-)
+  (req, res) => res.json(req.user));
 
-export default router
+export default router;
 
-
-// add router to parent router
-import parentRouter from '.'
-parentRouter.use('/local', router)
-
-log('end')
+log('end');
