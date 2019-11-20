@@ -1,5 +1,5 @@
 
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
 
 const {
   DB_NAME,
@@ -7,11 +7,11 @@ const {
   DB_PASS,
   DB_HOST = '127.0.0.1',
   DB_PORT = 3306,
-} = process.env
+} = process.env;
 
-const configs = { useNewUrlParser: true }
-const url = `mongodb://${DB_USER}:${DB_PASS}@${DB_HOST}:${DB_PORT}/${DB_NAME}`
+const configs = { useNewUrlParser: true };
+const url = `mongodb://${DB_USER}:${DB_PASS}@${DB_HOST}:${DB_PORT}/${DB_NAME}`;
 
-mongoose.connect(url, configs)
+mongoose.connect(url, configs);
 
-export default mongoose
+export default mongoose;

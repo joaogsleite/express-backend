@@ -1,38 +1,39 @@
-import path from 'path'
-import fs from 'fs'
+import path from 'path';
+import fs from 'fs';
 
-import express, { Router } from 'express'
-import favicon from 'serve-favicon'
+import express, { Router } from 'express';
+import favicon from 'serve-favicon';
 
-import logger from 'utils/logger'
-const log = logger('routes/www')
-log('start')
+import logger from 'utils/logger';
 
-const router = Router() 
-log('router created')
+const log = logger('routes/www');
+log('start');
+
+const router = Router();
+log('router created');
 
 // public dir
-const { PUBLIC_DIR = './public' } = process.env
-const publicFolder = path.join(__dirname, '..', '..', PUBLIC_DIR)
+const { PUBLIC_DIR = './public' } = process.env;
+const publicFolder = path.join(__dirname, '..', '..', PUBLIC_DIR);
 
 // favicon
 router.use(favicon(path.join(publicFolder, 'favicon.ico')));
 
 // frontend assets
-router.use(express.static(publicFolder))
+router.use(express.static(publicFolder));
 
 // serve frontend html
-router.use(/^\/(?!api).*/, function (req, res) {
-  fs.readFile(path.join(publicFolder, 'index.html'), function (err, data) {
+router.use(/^\/(?!api).*/, (req, res) => {
+  fs.readFile(path.join(publicFolder, 'index.html'), (err, data) => {
     if (err) {
-      res.status(500).send({error: 'No html available'})
+      res.status(500).send({ error: 'No html available' });
     } else {
-      res.set('Content-Type', 'text/html')
-      res.send(data)
+      res.set('Content-Type', 'text/html');
+      res.send(data);
     }
-  })
-})
+  });
+});
 
-log('end')
+log('end');
 
-export default router
+export default router;

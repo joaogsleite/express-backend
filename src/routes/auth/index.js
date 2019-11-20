@@ -1,16 +1,17 @@
 // logger
-import logger from 'utils/logger'
-const log = logger('routes/auth')
-log('start')
-
+import logger from 'utils/logger';
 
 // express router
-import { Router } from 'express'
-const router = Router() 
-log('router created')
-export default router
-
+import { Router } from 'express';
 
 // routes
 
-log('end')
+const log = logger('routes/auth');
+log('start');
+
+const router = Router();
+log('router created');
+
+export default router;
+
+log('end');

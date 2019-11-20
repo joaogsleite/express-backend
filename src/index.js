@@ -1,8 +1,8 @@
 // setup dotenv
-import 'setup/dotenv'
+import 'setup/dotenv';
 
 // setup database
-import 'setup/mysql'
+import 'setup/mysql';
 
 // setup http server
-import 'setup/httpServer'
+import 'setup/httpServer';

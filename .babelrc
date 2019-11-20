@@ -1,12 +1,12 @@
 {
   "presets": [
-    ["@babel/preset-env", { "targets": {"node":"current"} }],
+    ["@babel/preset-env", { "targets": {"node":"current"} }]
   ],
   "plugins": [
     "source-map-support",
     "@babel/proposal-class-properties",
     ["module-resolver", {
-      "root": ["./src"],
+      "root": ["./src"]
     }]
   ]
 }
