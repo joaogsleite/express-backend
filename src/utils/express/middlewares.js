@@ -49,14 +49,16 @@ export function validate(path, schema) {
 /**
  *
  */
-export function errorHandler(error, req, res) {
-  const { statusCode } = error;
-  delete error.isHttpError;
-  delete error.statusCode;
-  if (process.env.NODE_ENV !== 'development') {
-    error.details = error.details.filter((detail) => detail.code !== -1 && detail.type !== 'RawError');
+export function errorHandler(error, req, res, next) {
+  if (next) {
+    const { statusCode } = error;
+    delete error.isHttpError;
+    delete error.statusCode;
+    if (process.env.NODE_ENV !== 'development') {
+      error.details = error.details.filter((detail) => detail.code !== -1 && detail.type !== 'RawError');
+    }
+    res.status(statusCode).json(error);
   }
-  res.status(statusCode).json(error);
 }
 
 /**
