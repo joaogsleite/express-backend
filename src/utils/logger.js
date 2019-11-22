@@ -6,7 +6,7 @@ const {
   DEBUG = 'backend:*',
 } = process.env;
 
-Debug.enabled(DEBUG);
+Debug.enable(DEBUG);
 
 export default function (name) {
   return Debug(`${NAMESPACE}:${name}`);
