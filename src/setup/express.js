@@ -1,8 +1,8 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import cookieSession from 'cookie-session';
-// import fileUpload from 'express-fileupload'
-// import morgan from 'morgan'
+import fileUpload from 'express-fileupload';
+import morgan from 'morgan';
 
 
 import routes from 'routes';
@@ -17,7 +17,7 @@ const { SERVER_SESSION_SECRET = 'keyboard cat' } = process.env;
 
 const server = express();
 
-// server.use(morgan('dev'))
+server.use(morgan('dev'));
 
 // cookies
 server.set('trust proxy', 1);
@@ -28,7 +28,7 @@ server.use(cookieSession({
 server.use(bodyParser.json());
 // server.use(bodyParser.urlencoded({ extended: false }))
 
-// server.use(fileUpload())
+server.use(fileUpload());
 
 server.use(passport.initialize());
 server.use(passport.session());

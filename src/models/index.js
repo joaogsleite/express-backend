@@ -1,6 +1,3 @@
-// database instance
-import database from 'setup/mysql';
-
 
 // import models
 import logger from 'utils/logger';
@@ -13,22 +10,25 @@ const log = logger('models');
 
 
 // init models
-log('init start');
-UserModel.init(database);
-PostModel.init(database);
-RoleModel.init(database);
-log('init end');
+export function initModels(database) {
+  log('init start');
+  UserModel.init(database);
+  PostModel.init(database);
+  RoleModel.init(database);
+  log('init end');
+}
+
+// associate models
+export function associateModels() {
+  log('associate start');
+  UserModel.associate();
+  PostModel.associate();
+  RoleModel.associate();
+  log('associate end');
+}
 
 
 // export models
 export const User = UserModel;
 export const Post = PostModel;
 export const Role = RoleModel;
-
-
-// associate models
-log('associate start');
-UserModel.associate();
-PostModel.associate();
-RoleModel.associate();
-log('associate end');
