@@ -23,7 +23,7 @@ export default router;
 // routes
 router.use('/api', apiRouter);
 router.use('/auth', authRouter);
-router.use(['/api', '/auth'], errorHandler);
 router.use(wwwRoute);
+router.use(errorHandler);
 
 log('end');
