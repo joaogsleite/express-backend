@@ -2,7 +2,9 @@ import Sequelize from 'sequelize';
 
 import logger from 'utils/logger';
 
-const log = logger('config/database');
+import { initModels, associateModels } from 'models/index';
+
+const log = logger('setup/database');
 
 const {
   DB_NAME,
@@ -16,7 +18,6 @@ const {
   DB_SSL = false,
 } = process.env;
 
-log('start');
 log('DB_NAME', DB_NAME);
 log('DB_USER', DB_USER);
 log('DB_PASS', DB_PASS);
@@ -47,9 +48,9 @@ const database = new Sequelize(
 
 export default database;
 
+initModels(database);
+associateModels(database);
+
 database.sync({ force: DB_CLEAN === 'true' }).then(() => {
   log('synced');
-  require('models');
 });
-
-log('end');
