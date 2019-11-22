@@ -1,7 +1,7 @@
 import Joi from '@hapi/joi';
 
 import { RouteFunction } from 'utils/types';
-import { InternalServerError, InputError } from './errors';
+import { InternalServerError, InputError, ResourceNotFoundError } from './errors';
 import { getPathFromObj } from '../index';
 
 export { meAlias, isAuth, isAdmin } from './auth';
@@ -57,4 +57,11 @@ export function errorHandler(error, req, res) {
     error.details = error.details.filter((detail) => detail.code !== -1 && detail.type !== 'RawError');
   }
   res.status(statusCode).json(error);
+}
+
+/**
+ *
+ */
+export function notFound(req, res, next) {
+  next(new ResourceNotFoundError());
 }
